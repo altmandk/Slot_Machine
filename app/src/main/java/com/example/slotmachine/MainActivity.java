@@ -24,10 +24,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView slotResult, payout, bank;
-    Button pullSlot;
+    TextView slotResult, payout, bank, betAmount;
+    Button pullSlot, bet1, bet5, bet10;
     int winAmount, bankAmount = 500;
-    int slot1, slot2, slot3;
+    int slot1, slot2, slot3, currentBet = 1;
     ArrayList<Integer> slots;
     ArrayList<ImageView> slotImages;
     Random rand;
@@ -40,21 +40,47 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         slotResult = (TextView) findViewById(R.id.slotResult);
-        pullSlot = (Button) findViewById(R.id.pullSlot);
         payout = (TextView) findViewById(R.id.payout);
         bank = (TextView) findViewById(R.id.bank);
+        betAmount = (TextView) findViewById(R.id.betAmount);
 
-        rand = new Random();
-        slots = new ArrayList<Integer>();
-        slotImages = new ArrayList<ImageView>();
+        pullSlot = (Button) findViewById(R.id.pullSlot);
+        bet1 = (Button) findViewById(R.id.bet1);
+        bet5 = (Button) findViewById(R.id.bet5);
+        bet10 = (Button) findViewById(R.id.bet10);
 
         ImageView slot1Image = (ImageView) findViewById(R.id.slot1Image);
         ImageView slot2Image = (ImageView) findViewById(R.id.slot2Image);
         ImageView slot3Image = (ImageView) findViewById(R.id.slot3Image);
 
+        rand = new Random();
+        slots = new ArrayList<Integer>();
+        slotImages = new ArrayList<ImageView>();
+
         slotImages.add(slot1Image);
         slotImages.add(slot2Image);
         slotImages.add(slot3Image);
+
+        bet1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                currentBet = 1;
+                betAmount.setText("Bet Amount: $" + currentBet);
+            }
+        });
+
+        bet5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                currentBet = 5;
+                betAmount.setText("Bet Amount: $" + currentBet);
+            }
+        });
+
+        bet10.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                currentBet = 10;
+                betAmount.setText("Bet Amount: $" + currentBet);
+            }
+        });
     }
 
     public void pullSlot(View v) {
@@ -68,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         slots.add(slot2);
         slots.add(slot3);
 
-        bankAmount -= 5;
+        bankAmount -= currentBet;
 
         if (bankAmount < 0) {
             bankAmount = 0;
@@ -91,51 +117,49 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-
         if (slot1 == slot2 && slot1 == slot3) {
             if (slot1 == 1) {
-                winAmount = 10;
+                winAmount = 10 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 2) {
-                winAmount = 20;
+                winAmount = 20 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 3) {
-                winAmount = 10;
+                winAmount = 10 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 4) {
-                winAmount = 500;
+                winAmount = 500 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 5) {
-                winAmount = 10;
+                winAmount = 10 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 6) {
-                winAmount = 250;
+                winAmount = 250 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 7) {
-                winAmount = 10;
+                winAmount = 10 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 8) {
-                winAmount = 10;
+                winAmount = 10 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
             else if (slot1 == 9) {
-                winAmount = 1000;
+                winAmount = 1000 * currentBet;
                 msg = "Winner! $" + winAmount;
                 bankAmount += winAmount;
             }
@@ -143,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) {
             if (slot1 == slot2 || slot1 == slot3) {
                 if (slot1 == 3) {
-                    winAmount = 5;
+                    winAmount = 5 * currentBet;
                     msg = "Winner! $" + winAmount;
                     bankAmount += winAmount;
                 }
@@ -154,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (slot2 == slot3) {
                 if (slot2 == 3) {
-                    winAmount = 5;
+                    winAmount = 5 * currentBet;
                     msg = "Winner! $" + winAmount;
                     bankAmount += winAmount;
                 }
@@ -165,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else if (slot1 == 3 || slot2 == 3 || slot3 ==3) {
-            winAmount = 2;
+            winAmount = 2 * currentBet;
             msg = "Winner! $" + winAmount;
             bankAmount += winAmount;
         }
@@ -197,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
